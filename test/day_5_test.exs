@@ -1,19 +1,19 @@
-defmodule Advent.Day5Test do
+defmodule Advent.Day5_1Test do
   use ExUnit.Case
-  alias Advent.Day5
+  alias Advent.Day5_1
   doctest Advent
 
   test "nice?" do
-    assert Day5.nice?("ugknbfddgicrmopn")
-    assert Day5.nice?("aaa")
-    refute Day5.nice?("jchzalrnumimnmhp")
-    refute Day5.nice?("haegwjzuvuyypxyu")
-    refute Day5.nice?("dvszwmarrgswjxmb")
+    assert Day5_1.nice?("ugknbfddgicrmopn")
+    assert Day5_1.nice?("aaa")
+    refute Day5_1.nice?("jchzalrnumimnmhp")
+    refute Day5_1.nice?("haegwjzuvuyypxyu")
+    refute Day5_1.nice?("dvszwmarrgswjxmb")
   end
 
   test "count_nice" do
     input = "ugknbfddgicrmopn\naaa\njchzalrnumimnmhp\nhaegwjzuvuyypxyu\ndvszwmarrgswjxmb\n"
-    assert Day5.count_nice(input) == 2
+    assert Day5_1.count_nice(input) == 2
   end
 end
 

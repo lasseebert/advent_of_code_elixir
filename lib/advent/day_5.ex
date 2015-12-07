@@ -3,6 +3,22 @@ defmodule Advent.Day5 do
     File.read!("data/input_day_5")
   end
 
+  def count_nice(input, fun) do
+    input
+    |> parse_input
+    |> Enum.count(fun)
+  end
+
+  defp parse_input(input) do
+    input
+    |> String.strip
+    |> String.split("\n")
+  end
+end
+
+defmodule Advent.Day5_1 do
+  alias Advent.Day5
+
   def nice?(word) do
     predicates = [
       &three_vowels?/1,
@@ -17,15 +33,7 @@ defmodule Advent.Day5 do
   end
 
   def count_nice(input) do
-    input
-    |> parse_input
-    |> Enum.count(fn(word) -> nice?(word) end)
-  end
-
-  defp parse_input(input) do
-    input
-    |> String.strip
-    |> String.split("\n")
+    Day5.count_nice(input, &nice?/1)
   end
 
   defp three_vowels?(word) do
@@ -46,9 +54,7 @@ defmodule Advent.Day5 do
 end
 
 defmodule Advent.Day5_2 do
-  def input do
-    File.read!("data/input_day_5")
-  end
+  alias Advent.Day5
 
   def nice?(word) do
     regexes = [
@@ -60,14 +66,6 @@ defmodule Advent.Day5_2 do
   end
 
   def count_nice(input) do
-    input
-    |> parse_input
-    |> Enum.count(fn(word) -> nice?(word) end)
-  end
-
-  defp parse_input(input) do
-    input
-    |> String.strip
-    |> String.split("\n")
+    Day5.count_nice(input, &nice?/1)
   end
 end
