@@ -16,3 +16,16 @@ defmodule Advent.Day5Test do
     assert Day5.count_nice(input) == 2
   end
 end
+
+defmodule Advent.Day5_2Test do
+  use ExUnit.Case
+  alias Advent.Day5_2
+  doctest Advent
+
+  test "nice?" do
+    assert Day5_2.nice?("qjhvhtzxzqqjkmpb")
+    assert Day5_2.nice?("xxyxx")
+    refute Day5_2.nice?("uurcxstgmygtbstg")
+    refute Day5_2.nice?("ieodomkazucvgmuy")
+  end
+end

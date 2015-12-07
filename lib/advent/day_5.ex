@@ -44,3 +44,30 @@ defmodule Advent.Day5 do
     |> Enum.all?(fn(regex) -> !Regex.run(regex, word) end)
   end
 end
+
+defmodule Advent.Day5_2 do
+  def input do
+    File.read!("data/input_day_5")
+  end
+
+  def nice?(word) do
+    regexes = [
+      ~r/(..).*\1/,
+      ~r/(.).\1/
+    ]
+    regexes
+    |> Enum.all?(fn(regex) -> Regex.run(regex, word) end)
+  end
+
+  def count_nice(input) do
+    input
+    |> parse_input
+    |> Enum.count(fn(word) -> nice?(word) end)
+  end
+
+  defp parse_input(input) do
+    input
+    |> String.strip
+    |> String.split("\n")
+  end
+end
