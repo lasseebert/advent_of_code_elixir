@@ -1,6 +1,6 @@
 defmodule Advent.Day6 do
   def new do
-    %{}
+    HashDict.new
   end
 
   def run do
@@ -10,7 +10,7 @@ defmodule Advent.Day6 do
     |> Enum.reduce(new, fn
       command, grid -> execute(grid, command)
     end)
-    |> Enum.count
+    |> count
   end
 
   def execute(grid, "turn on " <> rest) do
@@ -26,8 +26,19 @@ defmodule Advent.Day6 do
     end)
   end
 
-  def get(grid, x, y) do
-    Map.get(grid, {x, y})
+  def get(grid, {_, _} = point) do
+    Dict.get(grid, point)
+  end
+
+  def set(grid, {_, _} = point, nil) do
+    Dict.delete(grid, point)
+  end
+  def set(grid, {_, _} = point, :on = value) do
+    Dict.put(grid, point, value)
+  end
+
+  def count(grid) do
+    Enum.count(grid)
   end
 
   defp do_execute(grid, coords, fun) do
@@ -38,12 +49,9 @@ defmodule Advent.Day6 do
     end
     |> Enum.reduce(grid, fn
       point, grid ->
-        value = Map.get(grid, point)
+        value = get(grid, point)
         new_value = fun.(value)
-        case new_value do
-          :on -> Map.put(grid, point, new_value)
-          _ -> Map.delete(grid, point)
-        end
+        set(grid, point, new_value)
     end)
   end
 
