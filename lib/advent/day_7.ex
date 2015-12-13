@@ -11,7 +11,7 @@ defmodule Advent.Day7 do
     |> to_map
   end
 
-  defp add(circuit, [{:contant, constant}, :to, {:wire, wire}]) do
+  defp add(circuit, [{:constant, constant}, :to, {:wire, wire}]) do
     Map.put(circuit, wire, constant)
   end
   defp add(circuit, [{:wire, a}, :and, {:wire, b}, :to, {:wire, c}]) do
@@ -22,6 +22,11 @@ defmodule Advent.Day7 do
   defp add(circuit, [{:wire, a}, :or, {:wire, b}, :to, {:wire, c}]) do
     Map.put(circuit, c, fn
       circuit -> get(circuit, a) ||| get(circuit, b)
+    end)
+  end
+  defp add(circuit, [{:wire, a}, :lshift, {:constant, b}, :to, {:wire, c}]) do
+    Map.put(circuit, c, fn
+      circuit -> left_shift(get(circuit, a), b)
     end)
   end
 
@@ -52,11 +57,18 @@ defmodule Advent.Day7 do
   defp parse_token("->"), do: :to
   defp parse_token("AND"), do: :and
   defp parse_token("OR"), do: :or
+  defp parse_token("LSHIFT"), do: :lshift
   defp parse_token(val) do
     if Regex.match?(~r/^\d+$/, val) do
-      {:contant, String.to_integer(val)}
+      {:constant, String.to_integer(val)}
     else
       {:wire, val}
     end
+  end
+
+  defp left_shift(value, 0), do: value
+  defp left_shift(value, count) do
+    ((value <<< 1) &&& 65535) # 16 bit
+    |> left_shift(count - 1)
   end
 end
