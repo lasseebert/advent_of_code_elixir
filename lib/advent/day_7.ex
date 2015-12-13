@@ -11,36 +11,39 @@ defmodule Advent.Day7 do
     |> to_map
   end
 
-  defp add(circuit, [{:constant, constant}, :to, {:wire, wire}]) do
-    Map.put(circuit, wire, constant)
+  defp add(circuit, [a, :to, {:wire, b}]) do
+    Map.put(circuit, b, fn
+      circuit -> get(circuit, a)
+    end)
   end
-  defp add(circuit, [{:wire, a}, :and, {:wire, b}, :to, {:wire, c}]) do
+  defp add(circuit, [a, :and, b, :to, {:wire, c}]) do
     Map.put(circuit, c, fn
       circuit -> get(circuit, a) &&& get(circuit, b)
     end)
   end
-  defp add(circuit, [{:wire, a}, :or, {:wire, b}, :to, {:wire, c}]) do
+  defp add(circuit, [a, :or, b, :to, {:wire, c}]) do
     Map.put(circuit, c, fn
       circuit -> get(circuit, a) ||| get(circuit, b)
     end)
   end
-  defp add(circuit, [{:wire, a}, :lshift, {:constant, b}, :to, {:wire, c}]) do
+  defp add(circuit, [a, :lshift, b, :to, {:wire, c}]) do
     Map.put(circuit, c, fn
-      circuit -> left_shift(get(circuit, a), b)
+      circuit -> left_shift(get(circuit, a), get(circuit, b))
     end)
   end
-  defp add(circuit, [{:wire, a}, :rshift, {:constant, b}, :to, {:wire, c}]) do
+  defp add(circuit, [a, :rshift, b, :to, {:wire, c}]) do
     Map.put(circuit, c, fn
-      circuit -> get(circuit, a) >>> b
+      circuit -> get(circuit, a) >>> get(circuit, b)
     end)
   end
-  defp add(circuit, [:not, {:wire, a}, :to, {:wire, b}]) do
+  defp add(circuit, [:not, a, :to, {:wire, b}]) do
     Map.put(circuit, b, fn
       circuit -> 65535 - get(circuit, a)
     end)
   end
 
-  defp get(circuit, wire) do
+  defp get(circuit, {:constant, constant}), do: constant
+  defp get(circuit, {:wire, wire}) do
     case circuit do
       %{^wire => value} when is_number(value) ->
         value
@@ -54,7 +57,7 @@ defmodule Advent.Day7 do
     |> Map.keys
     |> Enum.reduce(%{}, fn
       wire, result ->
-        Map.put(result, wire, get(circuit, wire))
+        Map.put(result, wire, get(circuit, {:wire, wire}))
     end)
   end
 

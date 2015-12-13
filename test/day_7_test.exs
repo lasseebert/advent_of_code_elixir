@@ -105,6 +105,10 @@ defmodule Advent.Day7Test do
 
     assert result == expected
   end
+
+  test "constants as inputs to gates" do
+    assert run(["1 AND 3 -> a"]) == %{"a" => 1}
+  end
 end
 
 
