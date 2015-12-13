@@ -6,6 +6,28 @@ defmodule Advent.Day7Test do
     assert run(["1 -> a"]) == %{"a" => 1}
   end
 
+  test "AND gate" do
+    input = [
+      "10 -> a",
+      "3 -> b",
+      "a AND b -> c"
+    ]
+    expected = %{"a" => 10, "b" => 3, "c" => 2}
+
+    assert run(input) == expected
+  end
+
+  test "AND gate defined before constants" do
+    input = [
+      "a AND b -> c",
+      "10 -> a",
+      "3 -> b"
+    ]
+    expected = %{"a" => 10, "b" => 3, "c" => 2}
+
+    assert run(input) == expected
+  end
+
   test "small circuit" do
     input = [
       "123 -> x",
