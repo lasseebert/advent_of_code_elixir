@@ -20,43 +20,46 @@ defmodule Advent.Day7 do
   end
 
   defp add(circuit, [a, :to, {:wire, b}]) do
-    Map.put(circuit, b, fn
+    Map.put(circuit, b, start(fn
       circuit -> get(circuit, a)
-    end)
+    end))
   end
   defp add(circuit, [a, :and, b, :to, {:wire, c}]) do
-    Map.put(circuit, c, fn
+    Map.put(circuit, c, start(fn
       circuit -> get(circuit, a) &&& get(circuit, b)
-    end)
+    end))
   end
   defp add(circuit, [a, :or, b, :to, {:wire, c}]) do
-    Map.put(circuit, c, fn
+    Map.put(circuit, c, start(fn
       circuit -> get(circuit, a) ||| get(circuit, b)
-    end)
+    end))
   end
   defp add(circuit, [a, :lshift, b, :to, {:wire, c}]) do
-    Map.put(circuit, c, fn
+    Map.put(circuit, c, start(fn
       circuit -> left_shift(get(circuit, a), get(circuit, b))
-    end)
+    end))
   end
   defp add(circuit, [a, :rshift, b, :to, {:wire, c}]) do
-    Map.put(circuit, c, fn
+    Map.put(circuit, c, start(fn
       circuit -> get(circuit, a) >>> get(circuit, b)
-    end)
+    end))
   end
   defp add(circuit, [:not, a, :to, {:wire, b}]) do
-    Map.put(circuit, b, fn
+    Map.put(circuit, b, start(fn
       circuit -> 65535 - get(circuit, a)
-    end)
+    end))
   end
 
   defp get(circuit, {:constant, constant}), do: constant
   defp get(circuit, {:wire, wire}) do
-    case circuit do
-      %{^wire => value} when is_number(value) ->
+    pid = circuit[wire]
+    case Agent.get(pid, &(&1)) do
+      value when is_number(value) ->
         value
-      %{^wire => fun} ->
-        fun.(circuit)
+      fun ->
+        value = fun.(circuit)
+        Agent.update(pid, fn _ -> value end)
+        value
     end
   end
 
@@ -93,5 +96,10 @@ defmodule Advent.Day7 do
   defp left_shift(value, count) do
     ((value <<< 1) &&& 65535) # 16 bit
     |> left_shift(count - 1)
+  end
+
+  defp start(fun) do
+    with {:ok, pid} <- Agent.start_link(fn -> fun end),
+         do: pid
   end
 end
