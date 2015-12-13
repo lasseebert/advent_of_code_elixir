@@ -69,6 +69,16 @@ defmodule Advent.Day7Test do
     assert run(input) == expected
   end
 
+  test "NOT gate" do
+    input = [
+      "11 -> a",
+      "NOT a -> b"
+    ]
+    expected = %{"a" => 11, "b" => 65524}
+
+    assert run(input) == expected
+  end
+
   test "small circuit" do
     input = [
       "123 -> x",
@@ -81,14 +91,14 @@ defmodule Advent.Day7Test do
       "NOT y -> i"
     ]
     expected = %{
-      d: 72,
-      e: 507,
-      f: 492,
-      g: 114,
-      h: 65412,
-      i: 65079,
-      x: 123,
-      y: 456
+      "d" => 72,
+      "e" => 507,
+      "f" => 492,
+      "g" => 114,
+      "h" => 65412,
+      "i" => 65079,
+      "x" => 123,
+      "y" => 456
     }
 
     result = run(input)
