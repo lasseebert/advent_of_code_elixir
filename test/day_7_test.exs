@@ -28,6 +28,17 @@ defmodule Advent.Day7Test do
     assert run(input) == expected
   end
 
+  test "OR gate" do
+    input = [
+      "10 -> a",
+      "3 -> b",
+      "a OR b -> c"
+    ]
+    expected = %{"a" => 10, "b" => 3, "c" => 11}
+
+    assert run(input) == expected
+  end
+
   test "small circuit" do
     input = [
       "123 -> x",
