@@ -24,7 +24,7 @@ defmodule Advent.Day7 do
     circuit
     |> Enum.each(fn
       {"b", pid} -> Agent.update(pid, fn {fun, _value} -> {fun, value_a} end)
-      {wire, pid} -> Agent.update(pid, fn {fun, _value} -> {fun, nil} end)
+      {_wire, pid} -> Agent.update(pid, fn {fun, _value} -> {fun, nil} end)
     end)
 
     circuit
