@@ -5,6 +5,14 @@ defmodule Advent.Day7 do
     %{}
   end
 
+  def run_task_input do
+    File.read!("data/input_day_7")
+    |> String.strip
+    |> String.split("\n")
+    |> Enum.reduce(new, fn line, circuit -> add(circuit, parse(line)) end)
+    |> get({:wire, "a"})
+  end
+
   def run(input) do
     input
     |> Enum.reduce(new, fn line, circuit -> add(circuit, parse(line)) end)
