@@ -13,6 +13,24 @@ defmodule Advent.Day7 do
     |> get({:wire, "a"})
   end
 
+  def run_task_input_2 do
+    circuit = File.read!("data/input_day_7")
+              |> String.strip
+              |> String.split("\n")
+              |> Enum.reduce(new, fn line, circuit -> add(circuit, parse(line)) end)
+
+    value_a = get(circuit, {:wire, "a"})
+
+    circuit
+    |> Enum.each(fn
+      {"b", pid} -> Agent.update(pid, fn {fun, _value} -> {fun, value_a} end)
+      {wire, pid} -> Agent.update(pid, fn {fun, _value} -> {fun, nil} end)
+    end)
+
+    circuit
+    |> get({:wire, "a"})
+  end
+
   def run(input) do
     input
     |> Enum.reduce(new, fn line, circuit -> add(circuit, parse(line)) end)
@@ -51,19 +69,19 @@ defmodule Advent.Day7 do
   end
 
   defp add(circuit, wire, fun) do
-    with {:ok, pid} <- Agent.start_link(fn -> fun end),
-         do: Map.put(circuit, wire, pid)
+    with {:ok, pid} <- Agent.start_link(fn -> {fun, nil} end),
+    do: Map.put(circuit, wire, pid)
   end
 
   defp get(_circuit, {:constant, constant}), do: constant
   defp get(circuit, {:wire, wire}) do
     pid = circuit[wire]
     case Agent.get(pid, &(&1)) do
-      value when is_number(value) ->
-        value
-      fun ->
+      {fun, nil} ->
         value = fun.(circuit)
-        Agent.update(pid, fn _ -> value end)
+        Agent.update(pid, fn {fun, _} -> {fun, value} end)
+        value
+      {_fun, value} ->
         value
     end
   end
