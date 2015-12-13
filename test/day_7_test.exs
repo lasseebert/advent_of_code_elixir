@@ -59,6 +59,16 @@ defmodule Advent.Day7Test do
     assert run(input) == expected
   end
 
+  test "RSHIFT gate" do
+    input = [
+      "11 -> a",
+      "a RSHIFT 2 -> b"
+    ]
+    expected = %{"a" => 11, "b" => 2}
+
+    assert run(input) == expected
+  end
+
   test "small circuit" do
     input = [
       "123 -> x",

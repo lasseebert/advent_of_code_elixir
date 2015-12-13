@@ -29,6 +29,11 @@ defmodule Advent.Day7 do
       circuit -> left_shift(get(circuit, a), b)
     end)
   end
+  defp add(circuit, [{:wire, a}, :rshift, {:constant, b}, :to, {:wire, c}]) do
+    Map.put(circuit, c, fn
+      circuit -> get(circuit, a) >>> b
+    end)
+  end
 
   defp get(circuit, wire) do
     case circuit do
@@ -58,6 +63,7 @@ defmodule Advent.Day7 do
   defp parse_token("AND"), do: :and
   defp parse_token("OR"), do: :or
   defp parse_token("LSHIFT"), do: :lshift
+  defp parse_token("RSHIFT"), do: :rshift
   defp parse_token(val) do
     if Regex.match?(~r/^\d+$/, val) do
       {:constant, String.to_integer(val)}
