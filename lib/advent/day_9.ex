@@ -37,16 +37,14 @@ defmodule Advent.Day9 do
     |> Enum.uniq
     |> permutations
     |> Enum.reduce(nil, fn
-      route, acc -> [route_length(route, distances), acc] |> Enum.min
+      route, acc -> [route_length(route, distances, 0), acc] |> Enum.min
     end)
   end
 
-  defp route_length(route, distances, acc \\ 0)
-  defp route_length([], _, acc), do: acc
-  defp route_length([_], _, acc), do: acc
   defp route_length([a, b | rest], distances, acc) do
     route_length([b | rest], distances, acc + distances[{a, b}])
   end
+  defp route_length(_, _, acc), do: acc
 
   defp permutations([]), do: [[]]
   defp permutations(list) do
