@@ -9,6 +9,12 @@ defmodule Advent.Day9 do
     |> find_shortest_path
   end
 
+  def longest_path(input) do
+    input
+    |> parse
+    |> find_longest_path
+  end
+
   defp parse(input) do
     input
     |> String.strip
@@ -30,15 +36,25 @@ defmodule Advent.Day9 do
   end
 
   defp find_shortest_path(distances) do
+    find_path(distances, fn
+      route, acc -> [route_length(route, distances, 0), acc] |> Enum.min
+    end)
+  end
+
+  defp find_longest_path(distances) do
+    find_path(distances, fn
+      route, acc -> [route_length(route, distances, 0), acc || 0] |> Enum.max
+    end)
+  end
+
+  defp find_path(distances, fun) do
     distances
     |> Enum.map(fn
       {{from, _}, _} -> from
     end)
     |> Enum.uniq
     |> permutations
-    |> Enum.reduce(nil, fn
-      route, acc -> [route_length(route, distances, 0), acc] |> Enum.min
-    end)
+    |> Enum.reduce(nil, fun)
   end
 
   defp route_length([a, b | rest], distances, acc) do
