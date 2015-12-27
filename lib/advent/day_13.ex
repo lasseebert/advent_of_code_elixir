@@ -9,6 +9,13 @@ defmodule Advent.Day13 do
     |> do_optimal_happiness
   end
 
+  def optimal_happiness_with_self(input) do
+    input
+    |> parse
+    |> Map.put({:self, nil}, 0)
+    |> do_optimal_happiness
+  end
+
   defp parse(input) do
     input
     |> String.strip
@@ -61,11 +68,17 @@ defmodule Advent.Day13 do
     calc_happiness(data, permutation, first, 0)
   end
   defp calc_happiness(data, [a, b | rest], first, acc) do
-    happiness = data[{a, b}] + data[{b, a}]
+    happiness = get_happiness(data, a, b)
     calc_happiness(data, [b | rest], first, acc + happiness)
   end
   defp calc_happiness(data, [a], first, acc) do
-    happiness = data[{a, first}] + data[{first, a}]
+    happiness = get_happiness(data, a, first)
     acc + happiness
+  end
+
+  defp get_happiness(data, person_1, person_2) do
+    a = data[{person_1, person_2}] || 0
+    b = data[{person_2, person_1}] || 0
+    a + b
   end
 end
