@@ -59,7 +59,6 @@ defmodule Advent.Day11 do
 
   defp valid?(password) do
     [
-      &illegal_letters?/1,
       &two_pairs?/1,
       &increasing_three?/1
     ]
@@ -70,11 +69,6 @@ defmodule Advent.Day11 do
     (a + 1 == b && b + 1 == c) || increasing_three?(<<b, c>> <> rest)
   end
   defp increasing_three?(_), do: false
-
-  defp illegal_letters?(password) do
-    ~r/^[^iol]*$/
-    |> Regex.match?(password)
-  end
 
   defp two_pairs?(password) do
     ~r/(.)\1.*(?!\1)(.)\2/

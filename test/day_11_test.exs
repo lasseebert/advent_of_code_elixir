@@ -7,5 +7,3 @@ defmodule Advent.Day11Test do
     assert next_password("ghijklmn") == "ghjaabcc"
   end
 end
-
-
