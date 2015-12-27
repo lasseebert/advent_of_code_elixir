@@ -12,4 +12,11 @@ defmodule Advent.Day12Test do
     assert sum(~s([])) == 0
     assert sum(~s({})) == 0
   end
+
+  test "sum_no_red" do
+    assert sum_no_red(~s([1,2,3])) == 6
+    assert sum_no_red(~s([1,{"c":"red","b":2},3])) == 4
+    assert sum_no_red(~s({"d":"red","e":[1,2,3,4],"f":5})) == 0
+    assert sum_no_red(~s([1,"red",5])) == 6
+  end
 end
