@@ -1,4 +1,4 @@
-defmodule Advent.Day1 do
+defmodule Advent.Day01 do
   def find_floor(input) do
     input
     |> String.to_char_list
@@ -12,7 +12,7 @@ defmodule Advent.Day1 do
   end
 
   def exercise_input do
-    File.read!("data/input_day_1")
+    File.read!("data/input_day_01")
   end
 
   defp find_floor([], floor), do: floor

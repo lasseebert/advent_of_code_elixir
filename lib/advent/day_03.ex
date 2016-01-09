@@ -1,6 +1,6 @@
-defmodule Advent.Day3 do
+defmodule Advent.Day03 do
   def input do
-    File.read!("data/input_day_3")
+    File.read!("data/input_day_03")
   end
 
   def uniq_houses(input) do

@@ -1,6 +1,6 @@
-defmodule Advent.Day8Test do
+defmodule Advent.Day08Test do
   use ExUnit.Case
-  import Advent.Day8
+  import Advent.Day08
 
   test "Overhead: No escaping" do
     assert overhead(~S("abc")) == 2

@@ -1,6 +1,6 @@
-defmodule Advent.Day5 do
+defmodule Advent.Day05 do
   def input do
-    File.read!("data/input_day_5")
+    File.read!("data/input_day_05")
   end
 
   def count_nice(input, fun) do
@@ -16,8 +16,8 @@ defmodule Advent.Day5 do
   end
 end
 
-defmodule Advent.Day5_1 do
-  alias Advent.Day5
+defmodule Advent.Day05_1 do
+  alias Advent.Day05
 
   def nice?(word) do
     predicates = [
@@ -33,7 +33,7 @@ defmodule Advent.Day5_1 do
   end
 
   def count_nice(input) do
-    Day5.count_nice(input, &nice?/1)
+    Day05.count_nice(input, &nice?/1)
   end
 
   defp three_vowels?(word) do
@@ -53,8 +53,8 @@ defmodule Advent.Day5_1 do
   end
 end
 
-defmodule Advent.Day5_2 do
-  alias Advent.Day5
+defmodule Advent.Day05_2 do
+  alias Advent.Day05
 
   def nice?(word) do
     regexes = [
@@ -66,6 +66,6 @@ defmodule Advent.Day5_2 do
   end
 
   def count_nice(input) do
-    Day5.count_nice(input, &nice?/1)
+    Day05.count_nice(input, &nice?/1)
   end
 end

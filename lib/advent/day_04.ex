@@ -1,4 +1,4 @@
-defmodule Advent.Day4 do
+defmodule Advent.Day04 do
   def input do
     "yzbqklnj"
   end

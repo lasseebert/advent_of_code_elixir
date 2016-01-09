@@ -1,6 +1,6 @@
-defmodule Advent.Day9Test do
+defmodule Advent.Day09Test do
   use ExUnit.Case
-  import Advent.Day9
+  import Advent.Day09
 
   test "shortest_path example" do
     input = "London to Dublin = 464\nLondon to Belfast = 518\nDublin to Belfast = 141\n"

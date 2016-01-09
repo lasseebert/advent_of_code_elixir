@@ -1,10 +1,10 @@
-defmodule Advent.Day6_2 do
+defmodule Advent.Day06 do
   def new do
     HashDict.new
   end
 
   def run do
-    File.read!("data/input_day_6")
+    File.read!("data/input_day_06")
     |> String.strip
     |> String.split("\n")
     |> Enum.reduce(new, fn
@@ -14,28 +14,31 @@ defmodule Advent.Day6_2 do
   end
 
   def execute(grid, "turn on " <> rest) do
-    do_execute(grid, rest, fn
-      value -> value + 1
-    end)
+    do_execute(grid, rest, fn(_) -> :on end)
   end
   def execute(grid, "turn off " <> rest) do
-    do_execute(grid, rest, fn
-      0 -> 0
-      value -> value - 1
-    end)
+    do_execute(grid, rest, fn(_) -> nil end)
   end
   def execute(grid, "toggle " <> rest) do
     do_execute(grid, rest, fn
-      value -> value + 2
+      :on -> nil
+      nil -> :on
     end)
   end
 
+  def get(grid, {_, _} = point) do
+    Dict.get(grid, point)
+  end
+
+  def set(grid, {_, _} = point, nil) do
+    Dict.delete(grid, point)
+  end
+  def set(grid, {_, _} = point, :on = value) do
+    Dict.put(grid, point, value)
+  end
+
   def count(grid) do
-    grid
-    |> Dict.values
-    |> Enum.reduce(0, fn
-      value, acc -> acc + value
-    end)
+    Enum.count(grid)
   end
 
   defp do_execute(grid, coords, fun) do
@@ -45,7 +48,10 @@ defmodule Advent.Day6_2 do
       {x, y}
     end
     |> Enum.reduce(grid, fn
-      point, grid -> Dict.update(grid, point, fun.(0), fun)
+      point, grid ->
+        value = get(grid, point)
+        new_value = fun.(value)
+        set(grid, point, new_value)
     end)
   end
 

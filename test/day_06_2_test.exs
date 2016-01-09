@@ -1,6 +1,6 @@
-defmodule Advent.Day6_2Test do
+defmodule Advent.Day06_2Test do
   use ExUnit.Case
-  import Advent.Day6_2
+  import Advent.Day06_2
   doctest Advent
 
   test "execute turn on" do

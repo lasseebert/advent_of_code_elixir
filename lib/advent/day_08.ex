@@ -1,6 +1,6 @@
-defmodule Advent.Day8 do
+defmodule Advent.Day08 do
   def input do
-    File.read!("data/input_day_8")
+    File.read!("data/input_day_08")
     |> String.strip
     |> String.split("\n")
   end

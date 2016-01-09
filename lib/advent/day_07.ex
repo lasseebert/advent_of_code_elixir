@@ -1,4 +1,4 @@
-defmodule Advent.Day7 do
+defmodule Advent.Day07 do
   use Bitwise
 
   def new do
@@ -6,7 +6,7 @@ defmodule Advent.Day7 do
   end
 
   def run_task_input do
-    File.read!("data/input_day_7")
+    File.read!("data/input_day_07")
     |> String.strip
     |> String.split("\n")
     |> Enum.reduce(new, fn line, circuit -> add(circuit, parse(line)) end)
@@ -14,7 +14,7 @@ defmodule Advent.Day7 do
   end
 
   def run_task_input_2 do
-    circuit = File.read!("data/input_day_7")
+    circuit = File.read!("data/input_day_07")
               |> String.strip
               |> String.split("\n")
               |> Enum.reduce(new, fn line, circuit -> add(circuit, parse(line)) end)

@@ -1,4 +1,4 @@
-defmodule Advent.Day2 do
+defmodule Advent.Day02 do
   def wrapping_need(input), do: need(input, &calc_wrapping/1)
   def ribbon_need(input), do: need(input, &calc_ribbon/1)
 
@@ -9,7 +9,7 @@ defmodule Advent.Day2 do
   end
 
   def input do
-    File.read!("data/input_day_2")
+    File.read!("data/input_day_02")
   end
 
   defp parse(input) do

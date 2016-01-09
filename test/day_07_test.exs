@@ -1,6 +1,6 @@
-defmodule Advent.Day7Test do
+defmodule Advent.Day07Test do
   use ExUnit.Case
-  import Advent.Day7
+  import Advent.Day07
 
   test "constant" do
     assert run(["1 -> a"]) == %{"a" => 1}

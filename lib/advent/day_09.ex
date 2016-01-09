@@ -1,6 +1,6 @@
-defmodule Advent.Day9 do
+defmodule Advent.Day09 do
   def default_input do
-    File.read!("data/input_day_9")
+    File.read!("data/input_day_09")
   end
 
   def shortest_path(input) do
