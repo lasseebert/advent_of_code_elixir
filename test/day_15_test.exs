@@ -10,5 +10,9 @@ defmodule Advent.Day15Test do
   test "best_cookie_score example" do
     assert best_cookie_score(@example_input) == 62842880
   end
+
+  test "best_cookie_score example with calories" do
+    assert best_cookie_score(@example_input, 500) == 57600000
+  end
 end
 

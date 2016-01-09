@@ -8,13 +8,13 @@ defmodule Advent.Day15 do
     """
   end
 
-  def best_cookie_score(input) do
+  def best_cookie_score(input, calories \\ nil) do
     input
     |> parse
-    |> do_best_cookie_score
+    |> do_best_cookie_score(calories)
   end
 
-  def do_best_cookie_score(data) do
+  def do_best_cookie_score(data, nil) do
     data
     |> permutations(100, %{})
     |> List.flatten
@@ -22,16 +22,30 @@ defmodule Advent.Day15 do
     |> Enum.max
   end
 
+  def do_best_cookie_score(data, calories) do
+    data
+    |> permutations(100, %{})
+    |> List.flatten
+    |> Enum.filter(fn recipe -> count(recipe, "calories") == calories end)
+    |> Enum.map(&score/1)
+    |> Enum.max
+  end
+
   def score(recipe) do
     for property <- ~w(capacity durability flavor texture) do
       recipe
-      |> Enum.map(fn
-        {{_name, %{^property => property_amount}}, ingredient_amount} ->
-          property_amount * ingredient_amount
-      end)
-      |> Enum.reduce(0, &(&1 + &2))
+      |> count(property)
     end
     |> Enum.reduce(1, fn amount, acc -> Enum.max([0, amount]) * acc end)
+  end
+
+  def count(recipe, property) do
+    recipe
+    |> Enum.map(fn
+      {{_name, %{^property => property_amount}}, ingredient_amount} ->
+        property_amount * ingredient_amount
+    end)
+    |> Enum.reduce(0, &(&1 + &2))
   end
 
   def permutations([last], amount_left, assigned) do
